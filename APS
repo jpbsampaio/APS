@@ -1,0 +1,87 @@
+atendimento = []
+desconto = 0.75
+geral = 1
+nutricionista = 2
+fono = 3
+fisio = 4
+odonto = 5
+especialidade = 0
+CPF = 1
+nome = 2
+convenio = 3
+valorCliente = 4
+valorConvenio = 5
+while True:
+    cpf = 0
+    while cpf <= 0 and cpf != -1:
+        cpf = int(input("Informe o CPF do cliente, -1 para encerrar o expediente: "))
+    if cpf != -1:
+        opcaoAtendimento = 0
+        while opcaoAtendimento < 1 or opcaoAtendimento > 5:
+            print("MENU")
+            print("1 - Clinico Geral")
+            print("2 - Nutricionista")
+            print("3 - Fonoaudiologo")
+            print("4 - Fisioterapeuta")
+            print("5 - Odontologo")
+            opcaoAtendimento = int(input("Informe o atendimento: "))
+        nomeCliente = input("Informe o nome do cliente: ")
+        idade = -1
+        while idade < 0:
+            idade = int(input("Informe a idade do cliente: "))
+        Sconvenio = 'a'
+        while Sconvenio != 's' and Sconvenio != 'n':
+           Sconvenio = input("O cliente tem convenio? S para sim e N para não: ")
+           Sconvenio = Sconvenio.lower()[0]
+        if Sconvenio != 's' and Sconvenio != 'n':
+            print("resposta invalida.")
+        if opcaoAtendimento == geral:
+            valorConsulta = 250.00
+        elif opcaoAtendimento == nutricionista:
+            valorConsulta = 150.00
+        elif opcaoAtendimento == fono:
+            valorConsulta = 200.00
+        elif opcaoAtendimento == fisio:
+            valorConsulta = 150.00
+        elif opcaoAtendimento == odonto:
+            valorConsulta = 200.00
+        desconto = 0.00
+        if Sconvenio == 's':
+            desconto = valorConsulta * desconto
+        atendimento.append([opcaoAtendimento, cpf, nomeCliente, Sconvenio, valorConsulta, desconto])
+    else:
+        break
+atEspecialidades = [0, 0, 0, 0, 0]
+lista59 = []
+total = 0.00
+for atendimento in atendimento:
+    if atendimento[especialidade] == geral:
+        atEspecialidades[geral - 1] += 1
+    elif atendimento[especialidade] == nutricionista:
+        atEspecialidades[nutricionista - 1] += 1
+    elif atendimento[especialidade] == fono:
+        atEspecialidades[fono - 1] += 1
+    elif atendimento[especialidade] == fisio:
+        atEspecialidades[fisio - 1] += 1
+    elif atendimento[especialidade] == odonto:
+        atEspecialidades[odonto - 1] += 1
+    if atendimento[convenio] == 's':
+        lista59.append(atendimento)
+    total += atendimento[valorCliente] - atendimento[valorConvenio]
+print("QUANTIDADE DE ATENDIMENTOS")
+print(f'Clinico Geral: {atEspecialidades[geral - 1]} atendimento(s)')
+print(f'Nutricionista: {atEspecialidades[nutricionista - 1]} atendimento(s)')
+print(f'Fonoaudiologo: {atEspecialidades[fono - 1]} atendimento(s)')
+print(f'Fisioterapeuta: {atEspecialidades[fisio - 1]} atendimento(s)')
+print(f'Odontologo: {atEspecialidades[odonto - 1]} atendimento(s)')
+print("RELACAO NOMINAL DOS CLIENTES COM CONVENIO E IDADE ACIMA DE 59 ANOS:")
+if len(lista59) > 0:
+    for cliente in lista59:
+        print(cliente[nome])
+else:
+    print("Nenhum cliente se enquadrou nos requisitos.")
+percentual_fisioterapeuta = 0.00
+if len(atendimento) > 0:
+    percentual_fisioterapeuta = (atEspecialidades[fisio - 1]/len(atendimento)) * 100
+print(f'PERCENTUAL DE CLIENTES QUE REALIZARAM ATENDIMENTO COM UM FISIOTERAPEUTA: {percentual_fisioterapeuta:.2f} %')
+print(f'O TOTAL ARRECADADO FOI DE R$ {total:.2f}')
